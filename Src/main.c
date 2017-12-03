@@ -912,8 +912,8 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOB, Dbg0_Pin|Dbg1_Pin|Dbg2_Pin|Dbg3_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOD, Dbg9_Pin|Dbg10_Pin|Dbg11_Pin|Pin12_Pin 
-                          |Pin13_Pin|Dir3_Pin|Dir4_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOD, Dbg9_Pin|Dbg10_Pin|Dbg11_Pin|Dir3_Pin 
+                          |Dir4_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : Dbg4_Pin Pin17_Pin Pin14_Pin */
   GPIO_InitStruct.Pin = Dbg4_Pin|Pin17_Pin|Pin14_Pin;
@@ -965,10 +965,10 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : Dbg9_Pin Dbg10_Pin Dbg11_Pin Pin12_Pin 
-                           Pin13_Pin Dir3_Pin Dir4_Pin */
-  GPIO_InitStruct.Pin = Dbg9_Pin|Dbg10_Pin|Dbg11_Pin|Pin12_Pin 
-                          |Pin13_Pin|Dir3_Pin|Dir4_Pin;
+  /*Configure GPIO pins : Dbg9_Pin Dbg10_Pin Dbg11_Pin Dir3_Pin 
+                           Dir4_Pin */
+  GPIO_InitStruct.Pin = Dbg9_Pin|Dbg10_Pin|Dbg11_Pin|Dir3_Pin 
+                          |Dir4_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -994,8 +994,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Alternate = GPIO_AF10_OTG_FS;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : Pin10_Pin Pin11_Pin */
-  GPIO_InitStruct.Pin = Pin10_Pin|Pin11_Pin;
+  /*Configure GPIO pins : Pin12_Pin Pin13_Pin Pin10_Pin Pin11_Pin */
+  GPIO_InitStruct.Pin = Pin12_Pin|Pin13_Pin|Pin10_Pin|Pin11_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);

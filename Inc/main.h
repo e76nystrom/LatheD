@@ -125,8 +125,8 @@
 #define ZB_Pin GPIO_PIN_12
 #define ZB_GPIO_Port GPIOD
 #define ZB_EXTI_IRQn EXTI15_10_IRQn
-#define Step4_Pin GPIO_PIN_13
-#define Step4_GPIO_Port GPIOD
+#define Step3_Pin GPIO_PIN_13
+#define Step3_GPIO_Port GPIOD
 #define ZA_Pin GPIO_PIN_14
 #define ZA_GPIO_Port GPIOD
 #define ZA_EXTI_IRQn EXTI15_10_IRQn
@@ -136,8 +136,8 @@
 #define RemTx_GPIO_Port GPIOC
 #define RemRx_Pin GPIO_PIN_7
 #define RemRx_GPIO_Port GPIOC
-#define Step3_Pin GPIO_PIN_8
-#define Step3_GPIO_Port GPIOC
+#define Step4_Pin GPIO_PIN_8
+#define Step4_GPIO_Port GPIOC
 #define Step5_Pin GPIO_PIN_9
 #define Step5_GPIO_Port GPIOC
 #define Step2b_Pin GPIO_PIN_8
