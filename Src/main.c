@@ -1,7 +1,8 @@
+
 /**
   ******************************************************************************
-  * File Name          : main.c
-  * Description        : Main program body
+  * @file           : main.c
+  * @brief          : Main program body
   ******************************************************************************
   ** This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
@@ -9,7 +10,7 @@
   * inserted by the user or by software development tools
   * are owned by their respective copyright owners.
   *
-  * COPYRIGHT(c) 2017 STMicroelectronics
+  * COPYRIGHT(c) 2018 STMicroelectronics
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -35,7 +36,6 @@
   *
   ******************************************************************************
   */
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f4xx_hal.h"
@@ -116,9 +116,13 @@ void mainLoop();
 
 /* USER CODE END 0 */
 
+/**
+  * @brief  The application entry point.
+  *
+  * @retval None
+  */
 int main(void)
 {
-
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
@@ -162,7 +166,6 @@ int main(void)
   MX_USART6_UART_Init();
   MX_TIM9_Init();
   MX_IWDG_Init();
-
   /* USER CODE BEGIN 2 */
 
   mainLoop();
@@ -183,8 +186,10 @@ int main(void)
 
 }
 
-/** System Clock Configuration
-*/
+/**
+  * @brief System Clock Configuration
+  * @retval None
+  */
 void SystemClock_Config(void)
 {
 
@@ -899,7 +904,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOE, Dbg4_Pin|Pin17_Pin|Pin14_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOE, Dbg4_Pin|Pin17_Pin|Pin14_Pin|ZFlag_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, Dbg8_Pin|Dir2_Pin|Dir5_Pin|SPI_Sel_Pin 
@@ -915,18 +920,22 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOD, Dbg9_Pin|Dbg10_Pin|Dbg11_Pin|Dir3_Pin 
                           |Dir4_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : Dbg4_Pin Pin17_Pin Pin14_Pin */
-  GPIO_InitStruct.Pin = Dbg4_Pin|Pin17_Pin|Pin14_Pin;
+  /*Configure GPIO pins : Dbg4_Pin Pin17_Pin Pin14_Pin ZFlag_Pin */
+  GPIO_InitStruct.Pin = Dbg4_Pin|Pin17_Pin|Pin14_Pin|ZFlag_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : ExtInt_Pin JogB1_Pin JogA1_Pin JogA2_Pin 
-                           JogB2_Pin Index1_Pin */
-  GPIO_InitStruct.Pin = ExtInt_Pin|JogB1_Pin|JogA1_Pin|JogA2_Pin 
-                          |JogB2_Pin|Index1_Pin;
+  /*Configure GPIO pins : ExtInt_Pin Index1_Pin */
+  GPIO_InitStruct.Pin = ExtInt_Pin|Index1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : JogB1_Pin JogA1_Pin JogA2_Pin JogB2_Pin */
+  GPIO_InitStruct.Pin = JogB1_Pin|JogA1_Pin|JogA2_Pin|JogB2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
@@ -959,8 +968,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(Index2_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : XFlag_Pin ZFlag_Pin Pin15_Pin */
-  GPIO_InitStruct.Pin = XFlag_Pin|ZFlag_Pin|Pin15_Pin;
+  /*Configure GPIO pins : XFlag_Pin Pin15_Pin */
+  GPIO_InitStruct.Pin = XFlag_Pin|Pin15_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
@@ -974,17 +983,11 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : XB_Pin XA_Pin ZA_Pin */
-  GPIO_InitStruct.Pin = XB_Pin|XA_Pin|ZA_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : ZB_Pin */
-  GPIO_InitStruct.Pin = ZB_Pin;
+  /*Configure GPIO pins : XB_Pin XA_Pin ZB_Pin ZA_Pin */
+  GPIO_InitStruct.Pin = XB_Pin|XA_Pin|ZB_Pin|ZA_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(ZB_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PA10 PA11 PA12 */
   GPIO_InitStruct.Pin = GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12;
@@ -1001,7 +1004,10 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI4_IRQn, 2, 0);
+  HAL_NVIC_SetPriority(EXTI2_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(EXTI2_IRQn);
+
+  HAL_NVIC_SetPriority(EXTI4_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(EXTI4_IRQn);
 
   HAL_NVIC_SetPriority(EXTI9_5_IRQn, 5, 0);
@@ -1068,45 +1074,43 @@ void _read()
 
 /**
   * @brief  This function is executed in case of error occurrence.
-  * @param  None
+  * @param  file: The file name as string.
+  * @param  line: The line in file as a number.
   * @retval None
   */
-void _Error_Handler(char * file, int line)
+void _Error_Handler(char *file, int line)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
   while(1) 
   {
   }
-  /* USER CODE END Error_Handler_Debug */ 
+  /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef USE_FULL_ASSERT
-
+#ifdef  USE_FULL_ASSERT
 /**
-   * @brief Reports the name of the source file and the source line number
-   * where the assert_param error has occurred.
-   * @param file: pointer to the source file name
-   * @param line: assert_param error line source number
-   * @retval None
-   */
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
 void assert_failed(uint8_t* file, uint32_t line)
-{
+{ 
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
-
 }
-
-#endif
-
-/**
-  * @}
-  */ 
+#endif /* USE_FULL_ASSERT */
 
 /**
   * @}
-*/ 
+  */
+
+/**
+  * @}
+  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
